@@ -1,0 +1,4 @@
+Deploy_ECS:
+  needs: build
+  uses: ./EC2.yml
+  secrets: inherit

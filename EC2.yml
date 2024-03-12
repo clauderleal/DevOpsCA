@@ -1,0 +1,24 @@
+  name: Continuous Delivery
+
+  on:
+    workflow_call:
+
+  jobs:
+
+      EC2:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Download a build Artifact
+            use: actions/download-artifact@v3.0.0
+            with:
+            # Artifact Name
+              name: program
+
+                - name: Deploy to Staging server
+                  uses: easingthemes/ssh-deploy@main
+                  env:
+                    SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+                    REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+                    REMOTE_USER: ${{ secrets.REMOTE_USER }}
+                    TARGET: /home/${{ secrets.REMOTE_USER }}
+                    EXCLUDE: "/node_modules/"
